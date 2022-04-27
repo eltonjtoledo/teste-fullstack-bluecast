@@ -1,0 +1,28 @@
+version: "3"
+services:
+    database: 
+      image: mongo:5.0
+      container_name: db
+      restart: always
+      ports:
+        - 27017:27017
+      environment:
+        MONGO_INITDB_DATABASE: testeConheciment
+    api:
+      image: node:alpine
+      container_name: api
+      command: /bin/sh -c 'npm install && npm run dev'
+      restart: always
+      working_dir: /home/node/app
+      ports:
+        - 3000:3000
+      volumes:
+        - ./api:/home/node/app
+    web:
+      image: httpd
+      container_name: web
+      restart: always
+      ports:
+        - 8080:80
+      volumes:
+        - ./web/dist/:/usr/local/apache2/htdocs/
