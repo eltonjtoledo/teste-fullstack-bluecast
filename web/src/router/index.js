@@ -15,8 +15,15 @@ const routes = [
     name: 'Client',
     component: function () {
       return import('@/views/ClientsView')
-    }
-  }
+    },
+  },
+  {
+    path: '/debits',
+    name: 'listDebits',
+    component: function () {
+      return import('@/views/DebitsView')
+    },
+  },
 ]
 
 const router = new VueRouter({

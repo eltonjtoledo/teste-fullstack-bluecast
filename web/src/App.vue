@@ -7,8 +7,13 @@
         </v-btn>
       </router-link>
       <router-link to="/clients" custom v-slot="{ navigate }">
-        <v-btn value="Clients" @click="navigate">
-          <span>Clientes</span>
+        <v-btn value="clients" @click="navigate">
+          <span>Clients</span>
+        </v-btn>
+      </router-link>
+      <router-link to="/debits" custom v-slot="{ navigate }">
+        <v-btn value="debits" @click="navigate">
+          <span>Debits expired</span>
         </v-btn>
       </router-link>
     </v-bottom-navigation>

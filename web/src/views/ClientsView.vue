@@ -9,9 +9,7 @@
             placeholder="Pesquisa"
           ></v-text-field>
 <v-btn class="ml-2"
-  elevation="2"
-  x-large @click="searchFilds"
->Buscar</v-btn>
+  elevation="2" x-large @click="searchFilds">Buscar</v-btn>
 </v-row>
          <b-table
             :data="dataFiltered"
@@ -27,48 +25,43 @@
             :page-input-position="inputPosition"
             :debounce-page-input="inputDebounce">
         <b-table-column
-          field="date_create"
-          label="Data de criação"
+          field="_id"
+          label="Identity"
           sortable
-          v-slot="props"
-          >{{props.row.date_create}}</b-table-column
-        >
+          v-slot="props">{{ props.row._id }}</b-table-column>
         <b-table-column
           field="first_name"
-          label="Nome do cliente"
+          label="First Name"
           sortable
           v-slot="props"
-          >{{ props.row.first_name }} {{ props.row.last_name }}</b-table-column
-        >
+          >{{ props.row.first_name }}</b-table-column>
         <b-table-column
-          field="description"
-          label="Descrição do débito"
+          field="last_name"
+          label="Last Name"
           sortable
-          v-slot="props"
-          >{{ props.row.description }}</b-table-column
-        >
-
+          v-slot="props"> {{ props.row.last_name }}</b-table-column>
         <b-table-column
-          field="date_expiration"
-          label="Desde"
+          field="cpf"
+          label="CPF of client"
           sortable
           v-slot="props"
-          >{{props.row.date_expiration}} </b-table-column
-        >
+          >{{ props.row.cpf }}</b-table-column>
         <b-table-column
-          field="value"
-          label="Valor R$"
+          field=""
+          label="#"
           sortable
-          v-slot="props"
-          >{{ props.row.value }}</b-table-column
-        >
+          v-slot="props">
+          <b-button tag="router-link" size="is-normal" type="is-link" :to="`/clients/${props.row._id}`" rounded icon-left="account-edit" style="margin: 0 2px; width: 40px; height: 40px;" />
+          <b-button tag="router-link" size="is-normal" type="is-danger" :to="`/clients/${props.row._id}`" rounded icon-left="delete" style="margin: 0 2px; width: 40px; height: 40px;" />
+          </b-table-column>
       </b-table>
     </v-card>
+    <b-button tag="router-link" type="is-link" to="/clients/add" icon-left="plus" rounded size="is-normal" style="width: 50px; height: 50px; position: absolute; right: 30px; bottom: 50px;"/>
   </div>
 </template>
 
 <script>
-import Axios from "axios";
+import Axios from "../http";
 import moment from 'moment';
 export default {
   data() {
@@ -89,15 +82,9 @@ export default {
   },
   methods: {
     listClients() {
-      Axios.get("http://localhost:3000/clients/debits").then((response) => {
-        this.data = response.data.data.map(el => {
-            el.date_create = this.formatDate(el.date_create);
-            el.date_expiration = this.formatDate(el.date_expiration);
-            return el;
-        });
-
-    this.dataFiltered = this.data;
-
+      Axios.get("clients").then((response) => {
+        this.data = response.data.data;
+        this.dataFiltered = response.data.data;
       });
     },
     formatDate(date){
@@ -107,11 +94,10 @@ export default {
         this.search = this.search.toLowerCase();
         this.dataFiltered = this.data.filter(value => {
             return (
-                value.date_create.toLowerCase().includes(this.search) 
-            || value.first_name.toLowerCase().includes(this.search) 
-            || value.last_name.toLowerCase().includes(this.search) 
-            || value.description.toLowerCase().includes(this.search) 
-            || value.value.toString().toLowerCase().includes(this.search) 
+            value.first_name.toLowerCase().includes(this.search) 
+            || value.last_name.toLowerCase().includes(this.search)
+            || value._id.toString().toLowerCase().includes(this.search)
+            || value.cpf.toString().toLowerCase().includes(this.search)
             ) 
         })
         this.dataFiltered;
