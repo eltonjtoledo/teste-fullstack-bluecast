@@ -11,7 +11,7 @@ const DebitsController = {
         }).catch((err) => {
             responseBody.success = false;
             responseBody.message = err.message;
-        })
+        });
         res.json(responseBody)
     },
     getById: async (req: Request, res: Response, next: NextFunction) => {

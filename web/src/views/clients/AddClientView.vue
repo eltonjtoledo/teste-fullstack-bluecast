@@ -34,7 +34,8 @@
 </template>
 
 <script>
-import http from "../http";
+import http from "../../http";
+import router from 'vue-router'
 export default {
   data() {
     return {
@@ -43,6 +44,7 @@ export default {
         show: false,
         message: ''
       },      
+      _id: null,
       firstName: "",
       lastName: "",
       cpf: "",
@@ -50,11 +52,14 @@ export default {
   },
   methods: {
     save() {
+      console.log(this.firstName, this.firstName.length);
+      console.log(this.lastName, this.lastName.length);
+      console.log(this.cpf, this.cpf.toString().length);
       if (this.firstName.length > 1 && this.lastName.length > 1 && this.cpf.length > 10) {
-        http.post("/clients", {first_name: this.firstName, last_name: this.lastName, cpf: this.cpf,})
+        http.post("/clients"+(this._id != null && this._id != '' ? `/${this._id}` : ''), {first_name: this.firstName, last_name: this.lastName, cpf: this.cpf,})
           .then((response) => {
             if(response.data.success){
-              this.showNotification('is-success',response.data.message);
+              this.showNotification('is-success', response.data.message);
               this.$router.go(-1);
             }else{
               this.showNotification('is-danger', response.data.message);
@@ -64,6 +69,15 @@ export default {
       }else{
         this.showNotification('is-danger', 'please, complete the form');
       }
+    },
+    loadClient(){
+
+      http.get(`/clients/${this._id}`).then(({data}) => {
+        const response = data.data;
+        this.firstName = response.first_name;
+        this.lastName = response.last_name;
+        this.cpf = response.cpf;
+      })
     },
     showNotification(type, message, duration){
       this.notification.type = type
@@ -79,7 +93,11 @@ export default {
     }
   },
   mounted() {
-
+    console.log(this.$route.params.id);
+    if(this.$route.params.id != undefined){
+      this._id = this.$route.params.id;
+    this.loadClient();
+    }
   },
 };
 </script>

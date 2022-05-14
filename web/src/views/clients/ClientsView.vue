@@ -51,8 +51,8 @@
           label="#"
           sortable
           v-slot="props">
-          <b-button tag="router-link" size="is-normal" type="is-link" :to="`/clients/${props.row._id}`" rounded icon-left="account-edit" style="margin: 0 2px; width: 40px; height: 40px;" />
-          <b-button tag="router-link" size="is-normal" type="is-danger" :to="`/clients/${props.row._id}`" rounded icon-left="delete" style="margin: 0 2px; width: 40px; height: 40px;" />
+          <b-button tag="router-link" size="is-normal" type="is-link" :to="{ name: 'EditClientView', params: { id: props.row._id }}" rounded icon-left="account-edit" style="margin: 0 2px; width: 40px; height: 40px;" />
+          <!-- <b-button tag="router-link" size="is-normal" type="is-danger" :to="`/clients/add/${props.row._id}`" rounded icon-left="delete" style="margin: 0 2px; width: 40px; height: 40px;" /> -->
           </b-table-column>
       </b-table>
     </v-card>
@@ -61,21 +61,21 @@
 </template>
 
 <script>
-import Axios from "../http";
+import Axios from "../../http";
 import moment from 'moment';
 export default {
   data() {
     return {
         search: "",
-                isPaginated: true,
-                defaultSortDirection: 'asc',
-                sortIcon: 'arrow-up',
-                sortIconSize: 'is-small',
-                currentPage: 1,
-                perPage: 5,
-                hasInput: false,
-                inputPosition: '',
-                inputDebounce: '',
+        isPaginated: true,
+        defaultSortDirection: 'asc',
+        sortIcon: 'arrow-up',
+        sortIconSize: 'is-small',
+        currentPage: 1,
+        perPage: 5,
+        hasInput: false,
+        inputPosition: '',
+        inputDebounce: '',
       data: [],
       dataFiltered: []
     };

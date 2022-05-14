@@ -15,6 +15,4 @@ router.route('/clients/:id')
 
 router.route('/clients/:id/debits')
     .post(ClientsController.addDebit)
-
-
 export default router;

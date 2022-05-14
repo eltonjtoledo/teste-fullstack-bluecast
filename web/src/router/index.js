@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '@/views/HomeView'
+import ClientsView from '@/views/clients/ClientsView'
+import AddClientView from '@/views/clients/AddClientView'
+import DebitsView from '@/views/DebitsView'
 
 Vue.use(VueRouter)
 
@@ -13,16 +16,22 @@ const routes = [
   {
     path: '/clients',
     name: 'Client',
-    component: function () {
-      return import('@/views/ClientsView')
-    },
+    component: ClientsView
+  },
+  {
+    path: '/clients/add',
+    name: 'AddClientView',
+    component: AddClientView
+  },
+  {
+    path: '/clients/add/:id',
+    name: 'EditClientView',
+    component: AddClientView
   },
   {
     path: '/debits',
     name: 'listDebits',
-    component: function () {
-      return import('@/views/DebitsView')
-    },
+    component: DebitsView
   },
 ]
 
